@@ -25,7 +25,7 @@
     <question 
       v-for="question in questions"
       :key="question.id"
-      v-model="question.dataValue"
+      v-model="question.value"
       :id="question.id"
       :tagline="question.tagline"
       :title="question.title"
