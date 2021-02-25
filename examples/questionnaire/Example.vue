@@ -18,10 +18,34 @@
       ref="flowform"
       v-on:complete="onComplete"
       v-on:submit="onSubmit"
-      v-bind:questions="questions"
       v-bind:language="language"
       v-bind:standalone="true"
     >
+
+    <question 
+      v-for="question in questions"
+      :key="question.id"
+      v-model="question.dataValue"
+      :id="question.id"
+      :tagline="question.tagline"
+      :title="question.title"
+      :type="question.type"
+      :required="question.required"
+      :placeholder="question.placeholder"
+      :min="question.min"
+      :max="question.max"
+      :options="question.options"
+      :helpTextShow="question.helpTextShow"
+      :helpText="question.helpText"
+      :multiple="question.multiple"
+      :mask="question.mask"
+      :content="question.content ? question.content : ''"
+      :descripition="question.descripition ? question.descripition : ''"
+      :allowOther="question.allowOther"
+      :other="question.other"
+      :nextStepOnAnswer="question.nextStepOnAnswer"
+    ></question>
+
     <!-- Custom content for the Complete/Submit screen slots in the FlowForm component -->
       <!-- We've overriden the default "complete" slot content -->
      <template v-slot:complete>
@@ -72,13 +96,16 @@
   import FlowForm from '../../src/components/FlowForm.vue'
   import QuestionModel, { QuestionType, ChoiceOption, LinkOption } from '../../src/models/QuestionModel'
   import LanguageModel from '../../src/models/LanguageModel'
+  import Question from '../../src/components/Question.vue'
   // If using the npm package, use the following line instead of the ones above.
   // import FlowForm, { QuestionModel, QuestionType, ChoiceOption, LanguageModel } from '@ditdot-dev/vue-flow-form'
+
 
   export default {
     name: 'example',
     components: {
-      FlowForm
+      FlowForm,
+      Question,
     },
     data() {
       return {
@@ -87,22 +114,7 @@
         language: new LanguageModel(),
         // Create question list with QuestionModel instances
         questions: [
-          new QuestionModel({
-            id: 'first_name',
-            tagline: 'Hi! Welcome to our demo survey 😊',
-            title: 'What is your first name?',
-            type: QuestionType.Text,
-            required: true,
-            placeholder: 'Start typing here...'
-          }),
-          new QuestionModel({
-            id: 'email',
-            tagline: "Nice to meet you 👀, let's continue",
-            title: 'Provide an example email.',
-            type: QuestionType.Email,
-            required: true,
-            placeholder: 'Start typing here...'
-          }),
+
            new QuestionModel({
             id: 'multiple_choice_image',
             tagline: "Let's take it one step further...",
@@ -134,20 +146,7 @@
               }),
             ]
           }),
-          new QuestionModel({
-            id: 'phone',
-            title: 'Doing great! 👍 Go ahead and try with a phone number.',
-            type: QuestionType.Phone,
-            required: true,
-            mask: '(###) ###-####'
-          }),
-          new QuestionModel({
-            id: 'movies',
-            title: 'List your favorite movies. 🍿',
-            type: QuestionType.LongText,
-            required: true,
-            placeholder: 'Start typing here...'
-          }),
+
           new QuestionModel({
             id: 'multiple_choice',
             tagline: 'FYI, You can always go back 👈, use the up arrow on the bottom.',
@@ -190,6 +189,36 @@
                 label: 'Answer 4'
               })
             ]
+          }),
+          new QuestionModel({
+            id: 'first_name',
+            tagline: 'Hi! Welcome to our demo survey 😊',
+            title: 'What is your first name?',
+            type: QuestionType.Text,
+            required: true,
+            placeholder: 'Start typing here...'
+          }),
+          new QuestionModel({
+            id: 'email',
+            tagline: "Nice to meet you 👀, let's continue",
+            title: 'Provide an example email.',
+            type: QuestionType.Email,
+            required: true,
+            placeholder: 'Start typing here...'
+          }),
+          new QuestionModel({
+            id: 'phone',
+            title: 'Doing great! 👍 Go ahead and try with a phone number.',
+            type: QuestionType.Phone,
+            required: true,
+            mask: '(###) ###-####'
+          }),
+          new QuestionModel({
+            id: 'movies',
+            title: 'List your favorite movies. 🍿',
+            type: QuestionType.LongText,
+            required: true,
+            placeholder: 'Start typing here...'
           }),
           new QuestionModel({
             id: 'break_1',
